@@ -77,6 +77,14 @@ function generateImage(username) {
     for (let line of lines) {
       ctx.fillText(line, 80, y);
       y += 30;
+
+    // 🔐 Store pledge in backend
+fetch("/api/pledge", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ username })
+});
+      
     }
 
     const dataURL = canvas.toDataURL("image/png");
