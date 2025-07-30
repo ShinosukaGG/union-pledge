@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Union Pledge</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ✳️ STAR BACKGROUND -->
+  <div id="star-background"></div>
+
+  <!-- ✳️ HEADER -->
+  <header class="header">
+    <div class="header-left">
+      <img src="badge3.png" alt="Union Logo" class="union-logo">
+      <span class="union-title">UNION</span>
+    </div>
+    <a href="https://x.com/shinosuka_eth" target="_blank" class="header-link">Union Pledge built by Shinosuka</a>
+  </header>
+
+  <!-- ✳️ MAIN CONTENT -->
+  <main>
+    <div class="entry-box" id="entryBox">
+      <input type="text" id="usernameInput" placeholder="Enter your Twitter username..." />
+      <button id="enterBtn">Enter the Podium</button>
+    </div>
+
+    <div class="pledge-box hidden" id="pledgeBox">
+      <h2>Pledge to Union</h2>
+      <p id="pledgeText">
+        <!-- Dynamic pledge inserted via JS -->
+      </p>
+      <button id="pledgeBtn">Pledge to Union</button>
+    </div>
+
+    <div class="result-box hidden" id="resultBox">
+      <img id="pledgeImage" alt="Pledge Image" />
+      <h3>Congratulations! Successfully Pledged to Union.</h3>
+      <p>By pledging to Union, you’ve committed to testing fearlessly, speaking truth, and building bridges. You are now a part of something bigger.</p>
+      <button id="downloadBtn" class="grey-btn">Download Your Pledge</button>
+      <button id="shareBtn" class="cyan-btn pulse">Share Your Pledge on X</button>
+    </div>
+  </main>
+
+  <!-- ✳️ FOOTER -->
+  <footer>
+    <p>This is a pledge site made by Shinosuka. By pledging you agree to always contribute to the mission of unifying crypto.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
