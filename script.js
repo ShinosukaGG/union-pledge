@@ -37,13 +37,13 @@ enterBtn.addEventListener("click", () => {
 
 // ✳️ Step 2: Pledge with Confetti
 pledgeBtn.addEventListener("click", () => {
-  runConfetti(5, 2500);
+  runConfettiOnce();
 
   setTimeout(() => {
     pledgeBox.classList.add("hidden");
     resultBox.classList.remove("hidden");
     generateImage(usernameInput.value.trim().replace(/^@/, ""));
-  }, 2600);
+  }, 1000);
 });
 
 // ✳️ Step 3: Generate Image (16:9, no PFP)
@@ -60,20 +60,20 @@ function generateImage(username) {
   logo.src = "badge3.png";
 
   logo.onload = () => {
-    // Draw centered logo at top
+    // Centered logo at top
     const logoWidth = 120;
     const logoX = (canvas.width - logoWidth) / 2;
     ctx.drawImage(logo, logoX, 40, logoWidth, logoWidth);
 
-    // Username
+    // Add username
     ctx.fillStyle = "#A9ECFD";
     ctx.font = "bold 26px JetBrains Mono";
-    ctx.fillText(`@${username}`, 80, 160);
+    ctx.fillText(`@${username}`, 80, 200); // was 160 — increased spacing
 
-    // Pledge
+    // Add pledge
     ctx.font = "18px JetBrains Mono";
     const lines = pledgeTemplate(username).split("\n");
-    let y = 210;
+    let y = 250;
     for (let line of lines) {
       ctx.fillText(line, 80, y);
       y += 30;
@@ -99,23 +99,20 @@ function generateImage(username) {
   };
 
   logo.onerror = () => {
-    alert("Logo failed to load. Please check that 'badge3.png' is in your directory.");
+    alert("Logo failed to load. Please ensure 'badge3.png' exists in your folder.");
   };
 }
 
-// ✳️ Confetti Effect
-function runConfetti(times, duration) {
+// ✳️ One-time Confetti
+function runConfettiOnce() {
   if (typeof confetti !== "function") {
     console.warn("Confetti library not loaded.");
     return;
   }
-  for (let i = 0; i < times; i++) {
-    setTimeout(() => {
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 }
-      });
-    }, (duration / times) * i);
-  }
+
+  confetti({
+    particleCount: 150,
+    spread: 70,
+    origin: { y: 0.6 }
+  });
 }
