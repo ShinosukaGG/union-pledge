@@ -99,7 +99,7 @@ fetch("/api/pledge", {
 
     shareBtn.onclick = () => {
       const tweetText = encodeURIComponent(
-        `I have successfully Pledged to @union_build.\n\nI thereby commit to test, to speak truth, and to unify.\n\nGo Pledge Yourself: union-pledge.vercel.app\n`
+        `I have successfully Pledged to @union_build.\n\nI thereby commit to test, to speak truth, and to unify.\n\nGo Pledge Yourself: union-pledge.vercel.app\n\nhttps://x.com/Shinosuka_eth/status/1950449014182392008`
       );
       const twitterURL = `https://twitter.com/intent/tweet?text=${tweetText}`;
       window.open(twitterURL, "_blank");
