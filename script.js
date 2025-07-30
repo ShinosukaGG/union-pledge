@@ -46,80 +46,60 @@ pledgeBtn.addEventListener("click", () => {
   }, 2600);
 });
 
-// ✳️ Step 3: Generate Image
+// ✳️ Step 3: Generate Image (16:9, no PFP)
 function generateImage(username) {
   const canvas = document.createElement("canvas");
-  canvas.width = 1200;
-  canvas.height = 1350;
+  canvas.width = 1280;
+  canvas.height = 720;
 
   const ctx = canvas.getContext("2d");
   ctx.fillStyle = "#000";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   const logo = new Image();
-  const pfp = new Image();
-
   logo.src = "badge3.png";
-  pfp.crossOrigin = "anonymous";
-  pfp.src = `https://unavatar.io/twitter/${username}`;
 
   logo.onload = () => {
-    // Centered logo at top
-    const logoWidth = 140;
+    // Draw centered logo at top
+    const logoWidth = 120;
     const logoX = (canvas.width - logoWidth) / 2;
-    ctx.drawImage(logo, logoX, 60, logoWidth, logoWidth);
+    ctx.drawImage(logo, logoX, 40, logoWidth, logoWidth);
 
-    pfp.onload = () => {
-      // Draw circular PFP
-      const pfpSize = 80;
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(90 + pfpSize / 2, 230 + pfpSize / 2, pfpSize / 2, 0, Math.PI * 2);
-      ctx.closePath();
-      ctx.clip();
-      ctx.drawImage(pfp, 90, 230, pfpSize, pfpSize);
-      ctx.restore();
+    // Username
+    ctx.fillStyle = "#A9ECFD";
+    ctx.font = "bold 26px JetBrains Mono";
+    ctx.fillText(`@${username}`, 80, 160);
 
-      // Draw @username
-      ctx.fillStyle = "#A9ECFD";
-      ctx.font = "bold 26px JetBrains Mono";
-      ctx.fillText(`@${username}`, 190, 280);
+    // Pledge
+    ctx.font = "18px JetBrains Mono";
+    const lines = pledgeTemplate(username).split("\n");
+    let y = 210;
+    for (let line of lines) {
+      ctx.fillText(line, 80, y);
+      y += 30;
+    }
 
-      // Draw pledge text
-      ctx.font = "18px JetBrains Mono";
-      const lines = pledgeTemplate(username).split("\n");
-      let y = 360;
-      for (let line of lines) {
-        ctx.fillText(line, 90, y);
-        y += 38;
-      }
+    const dataURL = canvas.toDataURL("image/png");
+    pledgeImage.src = dataURL;
 
-      const dataURL = canvas.toDataURL("image/png");
-      pledgeImage.src = dataURL;
-
-      downloadBtn.onclick = () => {
-        const link = document.createElement("a");
-        link.download = `union_pledge_${username}.png`;
-        link.href = dataURL;
-        link.click();
-      };
-
-      shareBtn.onclick = () => {
-        const tweetText = encodeURIComponent(
-          `I have successfully Pledged to @union_build.\n\nI thereby commit to test, to speak truth, and to unify.\n\nGo Pledge Yourself: union-pledge.vercel.app\n`
-        );
-        const twitterURL = `https://twitter.com/intent/tweet?text=${tweetText}`;
-        window.open(twitterURL, "_blank");
-      };
+    downloadBtn.onclick = () => {
+      const link = document.createElement("a");
+      link.download = `union_pledge_${username}.png`;
+      link.href = dataURL;
+      link.click();
     };
 
-    pfp.onerror = () => {
-      alert("Couldn't load profile picture. Try a different username.");
+    shareBtn.onclick = () => {
+      const tweetText = encodeURIComponent(
+        `I have successfully Pledged to @union_build.\n\nI thereby commit to test, to speak truth, and to unify.\n\nGo Pledge Yourself: union-pledge.vercel.app\n`
+      );
+      const twitterURL = `https://twitter.com/intent/tweet?text=${tweetText}`;
+      window.open(twitterURL, "_blank");
     };
   };
 
   logo.onerror = () => {
-    alert("Logo failed to load.");
+    alert("Logo failed to load. Please check that 'badge3.png' is in your directory.");
   };
 }
 
