@@ -53,11 +53,9 @@ function generateImage(username) {
   canvas.height = 1350;
 
   const ctx = canvas.getContext("2d");
-
   ctx.fillStyle = "#000";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Load logo and pfp
   const logo = new Image();
   const pfp = new Image();
 
@@ -66,21 +64,23 @@ function generateImage(username) {
   pfp.src = `https://unavatar.io/twitter/${username}`;
 
   logo.onload = () => {
-    // Draw logo centered
+    // Centered logo at top
     const logoWidth = 140;
     const logoX = (canvas.width - logoWidth) / 2;
     ctx.drawImage(logo, logoX, 60, logoWidth, logoWidth);
 
     pfp.onload = () => {
-      // Draw PFP on left
+      // Draw circular PFP
       const pfpSize = 80;
+      ctx.save();
       ctx.beginPath();
       ctx.arc(90 + pfpSize / 2, 230 + pfpSize / 2, pfpSize / 2, 0, Math.PI * 2);
+      ctx.closePath();
       ctx.clip();
       ctx.drawImage(pfp, 90, 230, pfpSize, pfpSize);
       ctx.restore();
 
-      // Draw username
+      // Draw @username
       ctx.fillStyle = "#A9ECFD";
       ctx.font = "bold 26px JetBrains Mono";
       ctx.fillText(`@${username}`, 190, 280);
@@ -94,7 +94,6 @@ function generateImage(username) {
         y += 38;
       }
 
-      // Final render
       const dataURL = canvas.toDataURL("image/png");
       pledgeImage.src = dataURL;
 
@@ -126,11 +125,15 @@ function generateImage(username) {
 
 // ✳️ Confetti Effect
 function runConfetti(times, duration) {
+  if (typeof confetti !== "function") {
+    console.warn("Confetti library not loaded.");
+    return;
+  }
   for (let i = 0; i < times; i++) {
     setTimeout(() => {
       confetti({
         particleCount: 100,
-        spread: 60,
+        spread: 70,
         origin: { y: 0.6 }
       });
     }, (duration / times) * i);
